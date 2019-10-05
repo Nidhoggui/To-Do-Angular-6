@@ -1,20 +1,80 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+ <title>To Do</title>
+ <meta charset="utf-8" />
+</head>
+<body class="m-1 p-1">
+    <h3 class="bg-dark p-1 text-white">Lista de tarefas de {{getName()}}</h3>
 
+    <div class="my-1">
+      <input class="form-control" #ToDoText>
+      <div class="form-check form-check-inline" >
+        PRIORIDADE: <select #ToDoPrioridade>
+          <option value="baixa">Baixa</option>
+          <option value="media">Media</option>
+          <option value="alta">Alta</option>
+        </select>
+        DATA: <input type="date" value="data" #ToDoData> 
+    
+      </div>
+      <div>
+        <button class="btn btn-dark mt-1 mb-1" (click)="addItem(ToDoText.value,ToDoPrioridade.value,ToDoData.value)"> Adicionar </button>
+      </div>
+    </div>
+    
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>DESCRIÇÃO</th>
+            <th>STATUS</th>
+            <th>FEITO</th>
+            <th>DATA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of getAlta();let i= index" class='bg-danger'>
+            <td> {{i+1}}  </td>
+            <td> {{item.action}} </td>
+            <td><input type="checkbox" [(ngModel)]="item.done"></td>
+            <td [ngSwitch]="item.done">
+                <span *ngSwitchCase="true">Yes</span>
+                <span *ngSwitchDefault>No</span>
+            </td>
+            <td>{{item.data}}</td>
+          </tr>
+          <tr *ngFor="let item of getMedia();let i= index" class='bg-warning'>
+              <td> {{i+1}}  </td>
+              <td> {{item.action}} </td>
+              <td><input type="checkbox" [(ngModel)]="item.done"></td>
+              <td [ngSwitch]="item.done">
+                  <span *ngSwitchCase="true">Yes</span>
+                  <span *ngSwitchDefault>No</span>
+              </td>
+              <td>{{item.data}}</td>
+            </tr>
+          <tr *ngFor="let item of getBaixa();let i= index" >
+              <td> {{i+1}}  </td>
+              <td> {{item.action}} </td>
+              <td><input type="checkbox" [(ngModel)]="item.done"></td>
+              <td [ngSwitch]="item.done">
+                  <span *ngSwitchCase="true">Yes</span>
+                  <span *ngSwitchDefault>No</span>
+              </td>
+              <td>{{item.data}}</td>
+            </tr>
+          
+        </tbody>
+    </table>
+    
+    <h3 class="bg-dark p-1 text-white">Feito</h3>
+    
+    <table class="table table-hover">
+      <tbody>
+        <tr *ngFor="let item of getItensFeitos();let i= index">
+          <td> {{item.action}} </td>
+          <td><button type="button" class="btn btn-dark" (click)="corrigirTarefa(item)">Corrigir</button></td>
+        </tr>
+      </tbody>
+    </table>
